@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A premium pelvic floor trainer app. Tracks workout history, calculates streaks, and offers customized contraction/relaxation timers.">
+  <title>Aura Kegel Trainer - Core Pelvic Floor Fitness</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Layout Container -->
+  <div class="container">
+    
+    <!-- Branding Header -->
+    <header>
+      <div class="logo-area">
+        <!-- Modern abstract glowing pelvic core logo -->
+        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
+          <path d="M228.62,112.59l-96-80a8,8,0,0,0-10.24,0l-96,80a8,8,0,0,0,10.24,12.28L128,52.92l91.38,71.95a8,8,0,0,0,10.24-12.28ZM195.69,141.2l-62.58-49.17a8,8,0,0,0-10.24,0L60.31,141.2a8,8,0,0,0,10.24,12.28L128,107.92l57.45,45.56a8,8,0,0,0,10.24-12.28ZM232,192a8,8,0,0,1-8,8H32a8,8,0,0,1,0-16H224A8,8,0,0,1,232,192Z"/>
+        </svg>
+        <h1>AURA KEGEL</h1>
+      </div>
+      <p>Pelvic floor muscle training & tracking</p>
+    </header>
+
+    <!-- Navigation Tab Bar -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="workout" id="nav-btn-workout">
+        <!-- SVG Play Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.89,15.89,0,0,1-8,13.86l-144,88A16,16,0,0,1,64,216V40A16,16,0,0,1,88,26.14l144,88A15.89,15.89,0,0,1,240,128Z"/></svg>
+        Workout
+      </button>
+      <button class="tab-btn" data-tab="routines" id="nav-btn-routines">
+        <!-- SVG Sliders Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM240,120H190.58a64,64,0,0,0-125.16,0H16a8,8,0,0,0,0,16H65.42a64,64,0,0,0,125.16,0H240a8,8,0,0,0,0-16Z"/></svg>
+        Routines
+      </button>
+      <button class="tab-btn" data-tab="progress" id="nav-btn-progress">
+        <!-- SVG Graph/Analytics Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V192a8,8,0,0,0,8,8H224A8,8,0,0,1,232,208ZM205.66,82.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0L104,115.31,69.66,149.66a8,8,0,0,1-11.32-11.32l40-40a8,8,0,0,1,11.32,0L144,132.69l50.34-50.35A8,8,0,0,1,205.66,82.34Z"/></svg>
+        Progress
+      </button>
+    </nav>
+
+    <!-- ============================================== -->
+    <!-- TAB 1: ACTIVE WORKOUT CONTAINER -->
+    <!-- ============================================== -->
+    <div class="tab-content active" id="tab-workout">
+      
+      <!-- Primary Countdown Dashboard -->
+      <div class="card" style="padding: 1.25rem;">
+        <div class="timer-container state-idle" id="timer-dashboard">
+          
+          <!-- Pulsating breath/contract ring wrapper -->
+          <div class="circle-wrapper">
+            
+            <!-- SVG Progress Indicator -->
+            <svg class="svg-ring" viewBox="0 0 240 240">
+              <circle class="ring-bg" cx="120" cy="120" r="110"></circle>
+              <circle class="ring-fg" id="timer-ring-fg" cx="120" cy="120" r="110"></circle>
+            </svg>
+            
+            <!-- Inner Solid Indicator -->
+            <div class="inner-pulse-circle" id="inner-pulse-circle">
+              <div class="timer-state-label" id="timer-state-label">Ready</div>
+              <div class="timer-countdown-val" id="timer-countdown-val">Start</div>
+              <div class="timer-sub-text" id="timer-sub-text">Standard Daily</div>
+            </div>
+            
+          </div>
+
+          <!-- Workout Sub Statistics (Sets/Reps/Elapsed) -->
+          <div class="workout-stats-row">
+            <div class="stat-item">
+              <div class="stat-item-label">Set</div>
+              <div class="stat-item-val" id="stat-set-val">0 / 3</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-item-label">Repetition</div>
+              <div class="stat-item-val" id="stat-rep-val">0 / 10</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-item-label">Elapsed</div>
+              <div class="stat-item-val" id="stat-elapsed-val">00:00</div>
+            </div>
+          </div>
+
+          <!-- Interaction Controls -->
+          <div class="controls-row">
+            <!-- Reset Button -->
+            <button class="btn btn-icon-only" id="btn-reset" title="Reset Workout">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" style="width:1.25rem; height:1.25rem;"><path d="M224,128a96,96,0,1,1-96-96A95.73,95.73,0,0,1,191.6,64.4L208,48V96H160l17.7-17.7A79.79,79.79,0,1,0,208,128,8,8,0,0,1,224,128Z"/></svg>
+            </button>
+            
+            <!-- Large Main Play/Pause Button -->
+            <button class="btn btn-play" id="btn-play-pause" title="Start Workout">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            
+            <!-- Fast Skip Phase Button -->
+            <button class="btn btn-icon-only" id="btn-skip" title="Skip Phase">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" style="width:1.25rem; height:1.25rem;"><path d="M208,40V216a8,8,0,0,1-16,0V139.73L68.48,222.09A8,8,0,0,1,56,215.42V40.58a8,8,0,0,1,12.48-6.67L192,116.27V40a8,8,0,0,1,16,0ZM72,60.27V195.73L173.82,128Z"/></svg>
+            </button>
+          </div>
+
+          <!-- Sound FX Toggle Option -->
+          <div class="sound-toggle-container">
+            <button class="sound-toggle-btn sound-on" id="btn-sound-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M160,32V224a8,8,0,0,1-12.91,6.31L77.25,176H40a16,16,0,0,1-16-16V96A16,16,0,0,1,40,80H77.25l69.84-54.31A8,8,0,0,1,160,32Zm-16,21.84L82.91,98.31A8,8,0,0,1,77.25,100H40v56H77.25a8,8,0,0,1,5.66,1.69L144,202.16ZM213.66,82.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32,0,8,8,0,0,1,0-11.32l24-24A8,8,0,0,1,213.66,82.34Zm0,80a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,0-11.32,8,8,0,0,1,11.32,0l24,24A8,8,0,0,1,213.66,162.34Z"/></svg>
+              Sound On
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Guidance Information Card -->
+      <div class="card edu-card">
+        <div class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,168a12,12,0,1,1,12-12A12,12,0,0,1,128,192Zm16-56a8,8,0,0,1-16,0,16,16,0,1,0-16-16,8,8,0,0,1-16,0,32,32,0,1,1,48,27.3Z"/></svg>
+          How to Practice
+        </div>
+        <p>Kegel exercises strengthen your pelvic floor muscles, supporting bladder, bowel, and sexual health.</p>
+        <ol class="edu-steps">
+          <li><strong>Identify:</strong> Find your pelvic floor muscles by stopping the flow of urine mid-stream (briefly). Do not pull in your stomach or squeeze your buttocks.</li>
+          <li><strong>Contract:</strong> Squeeze and lift these inner muscles when the circle expands and says <strong>Contract</strong>. Keep breathing normally.</li>
+          <li><strong>Relax:</strong> Completely release the muscles to rest when the circle shrinks and says <strong>Relax</strong>. Perfect relaxation is as important as the contraction!</li>
+        </ol>
+      </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- TAB 2: ROUTINE CONFIGURATOR CONTAINER -->
+    <!-- ============================================== -->
+    <div class="tab-content" id="tab-routines">
+      
+      <!-- Preset Routines Picker -->
+      <div class="card">
+        <div class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M168,128a40,40,0,1,1-40-40A40,40,0,0,1,168,128Zm64,0a104,104,0,1,1-104-104A104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
+          Select routine preset
+        </div>
+        <div class="preset-cards-container" id="preset-cards-container">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+
+      <!-- Advanced Custom Workout Constructor -->
+      <div class="card">
+        <div class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"/></svg>
+          Build custom routine
+        </div>
+        
+        <form id="routine-config-form" class="routines-grid">
+          <!-- Hold / Relax Durations -->
+          <div class="form-group-row">
+            <div class="form-group">
+              <label for="input-contract">Hold (Contract)</label>
+              <div class="input-wrapper">
+                <input type="number" id="input-contract" min="1" max="60" required>
+                <span class="input-suffix">sec</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="input-relax">Rest (Relax)</label>
+              <div class="input-wrapper">
+                <input type="number" id="input-relax" min="1" max="60" required>
+                <span class="input-suffix">sec</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Repetitions / Sets -->
+          <div class="form-group-row">
+            <div class="form-group">
+              <label for="input-reps">Repetitions</label>
+              <div class="input-wrapper">
+                <input type="number" id="input-reps" min="1" max="100" required>
+                <span class="input-suffix">reps</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="input-sets">Total Sets</label>
+              <div class="input-wrapper">
+                <input type="number" id="input-sets" min="1" max="20" required>
+                <span class="input-suffix">sets</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Set Rest Break -->
+          <div class="form-group">
+            <label for="input-rest">Set Break rest duration</label>
+            <div class="input-wrapper" style="max-width:250px;">
+              <input type="number" id="input-rest" min="0" max="120" required>
+              <span class="input-suffix">sec</span>
+            </div>
+          </div>
+
+          <!-- Save Submit Button -->
+          <button type="submit" class="btn btn-primary-block" id="btn-save-routine">
+            Save and Activate Routine
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- TAB 3: ANALYTICS & LOG HISTORY -->
+    <!-- ============================================== -->
+    <div class="tab-content" id="tab-progress">
+      
+      <!-- Key Statistics Dashboard Grid -->
+      <div class="stats-grid">
+        <!-- Daily Streak -->
+        <div class="stat-dashboard-card">
+          <svg class="stat-dash-icon streak" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,16a8,8,0,0,1,8,8V48a8,8,0,0,1-16,0V24A8,8,0,0,1,128,16ZM71.51,60.2A8,8,0,0,0,60.2,71.51l16.97,17a8,8,0,0,0,11.32-11.32ZM240,128a8,8,0,0,1-8,8H208a8,8,0,0,1,0-16h24A8,8,0,0,1,240,128ZM195.8,184.49a8,8,0,0,1,0,11.32l-17,16.97a8,8,0,1,1-11.32-11.32l17-16.97A8,8,0,0,1,195.8,184.49ZM128,208a8,8,0,0,1,8,8v24a8,8,0,0,1-16,0V216A8,8,0,0,1,128,208ZM88.49,178.78a8,8,0,0,1-11.32,11.32l-16.97-17a8,8,0,0,1,11.32-11.32Zm116-107.27a8,8,0,1,1,11.32,11.32l-16.97,17a8,8,0,1,1-11.32-11.32ZM128,64a64,64,0,1,0,64,64A64.07,64.07,0,0,0,128,64Zm0,112a48,48,0,1,1,48-48A48.05,48.05,0,0,1,128,176ZM48,128a8,8,0,0,1-8,8H16a8,8,0,0,1,0-16H40A8,8,0,0,1,48,128Z"/></svg>
+          <div class="stat-dash-label">Daily Streak</div>
+          <div class="stat-dash-val" id="stat-streak-val">0 Days</div>
+        </div>
+        <!-- Completed Workouts -->
+        <div class="stat-dashboard-card">
+          <svg class="stat-dash-icon sessions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,93.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,156.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
+          <div class="stat-dash-label">Sessions</div>
+          <div class="stat-dash-val" id="stat-total-sessions-val">0</div>
+        </div>
+        <!-- Training time in minutes -->
+        <div class="stat-dashboard-card">
+          <svg class="stat-dash-icon duration" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>
+          <div class="stat-dash-label">Total Time</div>
+          <div class="stat-dash-val" id="stat-total-duration-val">0m</div>
+        </div>
+      </div>
+
+      <!-- Weekly Habit Analytics Tracker (Week-at-a-Glance) -->
+      <div class="card">
+        <div class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V80H208V208Zm0-144H48V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24Z"/></svg>
+          Week at a Glance
+        </div>
+        <div class="calendar-bar" id="calendar-bar">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Historical Logs -->
+      <div class="card">
+        <div class="log-header-row">
+          <div class="log-title">Workout History Logs</div>
+          <button class="btn-clear-history" id="btn-clear-history">
+            <!-- Trash Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" style="width:0.85rem; height:0.85rem;"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
+            Clear History
+          </button>
+        </div>
+        <div class="history-list" id="history-list">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Dynamic Success Toast Notifications -->
+  <div class="toast-container" id="toast-notification">
+    <div id="toast-icon-wrapper">
+      <!-- Injected SVG depending on type -->
+    </div>
+    <span id="toast-text">Workout Complete!</span>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>
